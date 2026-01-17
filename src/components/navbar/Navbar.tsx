@@ -1,52 +1,39 @@
-import { Link } from "react-router-dom";
+import { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom"
+import { AuthContext } from "../../contexts/AuthContext";
 
 function Navbar() {
-  return (
-    <div className="w-full flex justify-center py-4 bg-indigo-900 text-white sticky top-0 z-50 shadow-lg">
-      <div className="container flex justify-between text-lg mx-8">
-        <Link to="/home" className="font-bold text-xl">
-          Blog Pessoal
-        </Link>
 
-        <div className="flex gap-4">
-          <Link
-            to="/postagens"
-            className="px-3 py-1 rounded hover:bg-indigo-800 hover:underline transition-all duration-300"
-          >
-            Postagens
-          </Link>
+    const navigate = useNavigate();
 
-          <Link
-            to="/temas"
-            className="px-3 py-1 rounded hover:bg-indigo-800 hover:underline transition-all duration-300"
-          >
-            Temas
-          </Link>
+    const { handleLogout } = useContext(AuthContext)
 
-          <Link
-            to="/cadastrartema"
-            className="px-3 py-1 rounded hover:bg-indigo-800 hover:underline transition-all duration-300"
-          >
-            Cadastrar tema
-          </Link>
+    function logout() {
 
-          <Link
-            to="/perfil"
-            className="px-3 py-1 rounded hover:bg-indigo-800 hover:underline transition-all duration-300"
-          >
-            Perfil
-          </Link>
+        handleLogout()
+        alert('O Usuário foi desconectado com sucesso!')
+        navigate('/')
+    }
 
-          <Link
-            to="/"
-            className="px-3 py-1 rounded hover:bg-indigo-800 hover:underline transition-all duration-300"
-          >
-            Sair
-          </Link>
-        </div>
-      </div>
-    </div>
-  );
+    return (
+        <>
+            <div className='w-full flex justify-center py-4
+            			   bg-indigo-900 text-white'>
+            
+                <div className="container flex justify-between text-lg mx-8">
+                    <Link to='/home' className="text-2xl font-bold">Blog Pessoal</Link>
+
+                    <div className='flex gap-4'>
+                        Postagens
+                        Temas
+                        Cadastrar tema
+                        Perfil
+                        <Link to='' onClick={logout} className='hover:underline'>Sair</Link>
+                    </div>
+                </div>
+            </div>
+        </>
+    )
 }
 
-export default Navbar;
+export default Navbar
