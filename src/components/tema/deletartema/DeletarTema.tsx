@@ -9,7 +9,6 @@ function DeletarTema() {
   const navigate = useNavigate();
 
   const [tema, setTema] = useState<Tema>({} as Tema);
-
   const [isLoading, setIsLoading] = useState<boolean>(false);
 
   const { usuario, handleLogout } = useContext(AuthContext);
@@ -77,11 +76,14 @@ function DeletarTema() {
       <p className="text-center font-semibold mb-4">
         Você tem certeza de que deseja apagar o tema a seguir?
       </p>
+
       <div className="border flex flex-col rounded-2xl overflow-hidden justify-between">
         <header className="py-2 px-6 bg-indigo-600 text-white font-bold text-2xl">
           Tema
         </header>
+
         <p className="p-8 text-3xl bg-slate-200 h-full">{tema.descricao}</p>
+
         <div className="flex">
           <button
             className="text-slate-100 bg-red-400 hover:bg-red-600 w-full py-2"
@@ -89,13 +91,18 @@ function DeletarTema() {
           >
             Não
           </button>
+
           <button
-            className="w-full text-slate-100 bg-indigo-400 
-                                   hover:bg-indigo-600 flex items-center justify-center"
+            className={`w-full text-slate-100 bg-indigo-400 hover:bg-indigo-600 flex items-center justify-center gap-2
+            ${isLoading ? "opacity-70 cursor-not-allowed" : ""}`}
             onClick={deletarTema}
+            disabled={isLoading}
           >
             {isLoading ? (
-              <ClipLoader color="#ffffff" size={24} />
+              <>
+                <ClipLoader color="#ffffff" size={22} />
+                <span>Deletando...</span>
+              </>
             ) : (
               <span>Sim</span>
             )}
@@ -105,4 +112,5 @@ function DeletarTema() {
     </div>
   );
 }
+
 export default DeletarTema;
