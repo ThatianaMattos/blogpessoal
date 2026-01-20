@@ -3,7 +3,6 @@ import axios from "axios";
 const api = axios.create({
   baseURL: "https://blogpessoal-nest-brzb.onrender.com",
 });
-
 export const cadastrarUsuario = async (
   url: string,
   dados: Object,
@@ -45,4 +44,8 @@ export const atualizar = async (
 ) => {
   const resposta = await api.put(url, dados, header);
   setDados(resposta.data);
+};
+
+export const deletar = async (url: string, header: Object) => {
+  await api.delete(url, header);
 };
