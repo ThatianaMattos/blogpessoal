@@ -1,15 +1,21 @@
 import { useEffect, useState, type ChangeEvent, type FormEvent } from "react";
 import { useNavigate } from "react-router-dom";
 import { ClipLoader } from "react-spinners";
+
 import type Usuario from "../../models/Usuario";
 import { cadastrarUsuario } from "../../services/Service";
+import { ToastAlerta } from "../../utils/ToastAlerta";
 
 function Cadastro() {
   const navigate = useNavigate();
 
+  // Loading do botão de submit durante a requisição
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  // Estado do campo "confirmar senha" (separado do objeto usuario)
   const [confirmarSenha, setConfirmarSenha] = useState<string>("");
 
+  // Estado do usuário a ser cadastrado
   const [usuario, setUsuario] = useState<Usuario>({
     id: 0,
     nome: "",
@@ -19,16 +25,20 @@ function Cadastro() {
   });
 
   useEffect(() => {
+    // Após cadastrar, o backend retorna o usuário com id preenchido.
+    // Quando isso acontecer, redirecionamos para a página de login.
     if (usuario.id !== 0) {
       retornar();
     }
   }, [usuario]);
 
   function retornar() {
+    // Volta para a rota inicial (login)
     navigate("/");
   }
 
   function atualizarEstado(e: ChangeEvent<HTMLInputElement>) {
+    // Atualiza o objeto usuario com base no name do input
     setUsuario({
       ...usuario,
       [e.target.name]: e.target.value,
@@ -36,29 +46,37 @@ function Cadastro() {
   }
 
   function handleConfirmarSenha(e: ChangeEvent<HTMLInputElement>) {
+    // Atualiza o estado do campo "confirmar senha"
     setConfirmarSenha(e.target.value);
   }
 
   async function cadastrarNovoUsuario(e: FormEvent<HTMLFormElement>) {
     e.preventDefault();
 
+    // Validação básica:
+    // - senha e confirmar senha devem ser iguais
+    // - senha deve ter no mínimo 8 caracteres
     if (confirmarSenha === usuario.senha && usuario.senha.length >= 8) {
       setIsLoading(true);
 
       try {
+        // Cadastra o usuário no backend
         await cadastrarUsuario(`/usuarios/cadastrar`, usuario, setUsuario);
-        alert("Usuário cadastrado com sucesso!");
+        ToastAlerta("Usuário cadastrado com sucesso!", "sucesso");
       } catch (error) {
-        alert("Erro ao cadastrar o usuário!");
+        ToastAlerta("Erro ao cadastrar o usuário!", "erro");
       }
 
       setIsLoading(false);
       return;
     }
 
-    alert(
-      "Dados do usuário inconsistentes! Verifique as informações do cadastro."
+    // Caso as validações falhem, informamos o usuário e limpamos os campos de senha
+    ToastAlerta(
+      "Dados do usuário inconsistentes! Verifique as informações do cadastro.",
+      "erro"
     );
+
     setUsuario({ ...usuario, senha: "" });
     setConfirmarSenha("");
   }
@@ -151,11 +169,7 @@ function Cadastro() {
             type="submit"
             className="rounded text-white bg-indigo-400 hover:bg-indigo-900 w-1/2 py-2 flex justify-center"
           >
-            {isLoading ? (
-              <ClipLoader color="#ffffff" size={24} />
-            ) : (
-              <span>Cadastrar</span>
-            )}
+            {isLoading ? <ClipLoader color="#ffffff" size={24} /> : <span>Cadastrar</span>}
           </button>
         </div>
       </form>
@@ -164,10 +178,3 @@ function Cadastro() {
 }
 
 export default Cadastro;
-
-
-
-
-
-
-
