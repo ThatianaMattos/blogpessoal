@@ -1,73 +1,106 @@
-# React + TypeScript + Vite
+# Blog Pessoal - Frontend (React)
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Aplicação Frontend desenvolvida em **React + TypeScript**, como parte do Projeto **Blog Pessoal (Generation Brasil)**.  
+A aplicação consome uma API REST (Backend em NestJS) e permite autenticação e gerenciamento de **Postagens** e **Temas**.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## Funcionalidades
 
-## React Compiler
+### Autenticação
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+- Login de usuário
+- Cadastro de usuário
+- Logout
+- Proteção de rotas (usuário precisa estar autenticado)
 
-## Expanding the ESLint configuration
+### Postagens
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+- Listar postagens
+- Cadastrar postagem
+- Editar postagem
+- Deletar postagem (com confirmação)
 
-```js
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+### Temas
 
-      // Remove tseslint.configs.recommended and replace with this
-      tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      tseslint.configs.stylisticTypeChecked,
+- Listar temas
+- Cadastrar tema
+- Editar tema
+- Deletar tema (com confirmação)
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+## Tecnologias utilizadas
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+- React
+- TypeScript
+- Vite
+- React Router DOM
+- Axios
+- Tailwind CSS
+- React Spinners (loading)
+- Toast/Alerts personalizados (UI Feedback)
 
-export default defineConfig([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+---
+
+## Deploy
+
+Frontend publicado na **Vercel**:
+
+✅ Link do Deploy: <https://blogpessoal-gjzs.vercel.app>
+
+Backend publicado na **Render** (API REST):
+
+✅ Base URL: <https://blogpessoal-nest-brzb.onrender.com>
+
+---
+
+## Variáveis de Ambiente
+
+Este projeto utiliza variável de ambiente para ocultar a URL do Backend.
+
+Crie um arquivo `.env` na raiz do projeto com o seguinte conteúdo:
+
+```env
+VITE_API_URL=https://blogpessoal-nest-brzb.onrender.com
+```  
+
+Como executar o projeto localmente
+
+1.Clonar o repositório
+git clone <https://github.com/ThatianaMattos/blogpessoal.git>
+
+2.Acessar a pasta do projeto
+cd blogpessoal
+
+3.Instalar as dependências
+npm install
+
+4.Configurar o .env
+
+Crie o arquivo .env na raiz do projeto e adicione:
+
+VITE_API_URL=<https://blogpessoal-nest-brzb.onrender.com>
+
+5.Rodar a aplicação
+npm run dev
+
+A aplicação estará disponível em:
+
+📍 <http://localhost:5173>
+
+Observações importantes
+Antes de testar o projeto, verifique se o Backend está ativo (Render pode hibernar e demorar alguns segundos para responder).
+
+Não altere o usuário padrão (root) utilizado pelos instrutores para validação e correção do projeto.
+
+Status do Projeto
+
+✅ Finalizado e testado localmente e em produção (Vercel)
+
+Autora
+
+Thatiana Mattos
+GitHub: <https://github.com/ThatianaMattos>
+
+LinkedIn: <https://www.linkedin.com/in/thatiana-mattos>
