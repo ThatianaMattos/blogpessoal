@@ -1,27 +1,35 @@
 import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { SyncLoader } from "react-spinners";
+
 import { AuthContext } from "../../../contexts/AuthContext";
 import type Postagem from "../../../models/Postagem";
 import { buscar } from "../../../services/Service";
 import CardPostagem from "../cardpostagem/CardPostagem";
+import { ToastAlerta } from "../../../utils/ToastAlerta";
 
 function ListaPostagens() {
   const navigate = useNavigate();
 
+  // Controle do loading para exibir o spinner durante a requisição
   const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  // Estado que armazena as postagens retornadas pela API
   const [postagens, setPostagens] = useState<Postagem[]>([]);
 
+  // Recupera o token e a função de logout através do AuthContext (Context API)
   const { usuario, handleLogout } = useContext(AuthContext);
   const token = usuario.token;
 
   useEffect(() => {
+    // Proteção de rota: sem token, o usuário não está autenticado
     if (token === "") {
-      alert("Você precisa estar logado!");
+      ToastAlerta("Você precisa estar logado!", "info");
       navigate("/");
       return;
     }
 
+    // Se o token estiver presente, buscamos as postagens no backend
     buscarPostagens();
   }, [token]);
 
@@ -29,12 +37,17 @@ function ListaPostagens() {
     try {
       setIsLoading(true);
 
+      // Requisição protegida: envia token no header Authorization
       await buscar("/postagens", setPostagens, {
         headers: { Authorization: token },
       });
     } catch (error: any) {
+      // Se o token for inválido/expirado (401), força logout
       if (error.toString().includes("401")) {
         handleLogout();
+      } else {
+        // Feedback visual para outros erros (rede, servidor, etc.)
+        ToastAlerta("Erro ao buscar as postagens!", "erro");
       }
     } finally {
       setIsLoading(false);
