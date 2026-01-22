@@ -14,7 +14,7 @@ function CardPostagem({ postagem }: CardPostagensProps) {
 
   // Fallback padrão sempre carrega (ui-avatars)
   const fallback = `https://ui-avatars.com/api/?name=${encodeURIComponent(
-    nome
+    nome,
   )}&background=6366f1&color=fff&size=128&format=png`;
 
   const fotoRaw = (postagem.usuario?.foto ?? "").trim();
@@ -61,7 +61,7 @@ function CardPostagem({ postagem }: CardPostagensProps) {
 
       <div className="flex">
         <Link
-          to=""
+          to={`/editarpostagem/${postagem.id}`}
           className="w-full text-white bg-indigo-400 hover:bg-indigo-800 flex items-center justify-center py-2"
         >
           <button>Editar</button>
